@@ -39,9 +39,12 @@ class Tree
 	}
 	int MinValue(Element* Root)
 	{
-		if (Root->pLeft->pLeft == nullptr) return Root->Data;
-		MinValue(Root->pLeft);
+		return Root->pLeft == nullptr ? Root->Data : MinValue(Root->pLeft);
+		//if (Root->pLeft == nullptr) return Root->Data;
+		//MinValue(Root->pLeft);
 	}
+	int MaxValue(Element* Root) { return Root->pRight == nullptr ? Root->Data : MaxValue(Root->pRight); }
+
 
 public:
 	Element* getRoot()const { return Root; };
@@ -51,6 +54,7 @@ public:
 	//						Methods:
 	void print() { print(Root); }
 	int MinValue() { return MinValue(Root); }
+	int MaxValue() { return MaxValue(Root); }
 
 
 
@@ -71,7 +75,8 @@ void main()
 		tree.insert(rand() % 100);
 	}
 	tree.print();
-	cout << "Значение " << tree.MinValue() << endl;
+	cout << "Значение min " << tree.MinValue() << endl;
+	cout << "Значение max " << tree.MaxValue() << endl;
 
 
 		
