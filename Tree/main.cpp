@@ -13,10 +13,15 @@ class Tree
 		~Element() { cout << "EDestructor: " << this << endl; }
 		friend class Tree;
 	}*Root;
-public:
-	Element* getRoot()const { return Root; };
-	Tree() { Root = nullptr; cout << "TConstructor: " << this << endl; } 
-	~Tree() { cout << "TDestructor: " << this << endl; }
+
+	void print(Element* Root)const
+	{
+		if (Root == nullptr)return;
+		print(Root->pLeft);
+		cout << Root->Data << tab;
+		print(Root->pRight);
+
+	}
 	void insert(int Data, Element* Root)
 	{
 		if (this->Root == nullptr)this->Root = new Element(Data);
@@ -32,17 +37,20 @@ public:
 			else insert(Data, Root->pRight);
 		}
 	}
-	//						Methods:
-	void print(Element* Root=nullptr)const
+	int MinValue(Element* Root)
 	{
-		Root = this->Root;
-		cout << Root << endl;
-		if (Root == nullptr)return;
-		print(Root->pLeft);
-		cout << Root->Data << tab;
-		print(Root->pRight);
-		
+		if (Root->pLeft->pLeft == nullptr) return Root->Data;
+		MinValue(Root->pLeft);
 	}
+
+public:
+	Element* getRoot()const { return Root; };
+	Tree() { Root = nullptr; cout << "TConstructor: " << this << endl; } 
+	~Tree() { cout << "TDestructor: " << this << endl; }
+	void insert(int Data) { insert(Data, Root); }
+	//						Methods:
+	void print() { print(Root); }
+	int MinValue() { return MinValue(Root); }
 
 
 
@@ -60,9 +68,10 @@ void main()
 	Tree tree;
 	for (int i = 0; i < n; i++)
 	{
-		tree.insert(rand() % 100, tree.getRoot());
+		tree.insert(rand() % 100);
 	}
 	tree.print();
+	cout << "Значение " << tree.MinValue() << endl;
 
 
 		
