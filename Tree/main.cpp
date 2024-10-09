@@ -37,16 +37,24 @@ class Tree
 			else insert(Data, Root->pRight);
 		}
 	}
-	int MinValue(Element* Root)
+	int MinValue(Element* Root)const
 	{
 		return Root->pLeft == nullptr ? Root->Data : MinValue(Root->pLeft);
 		//if (Root->pLeft == nullptr) return Root->Data;
 		//MinValue(Root->pLeft);
 	}
-	int MaxValue(Element* Root) { return Root->pRight == nullptr ? Root->Data : MaxValue(Root->pRight); }
-	int Count(Element* Root) { return Root == nullptr ? 0 : Count(Root->pLeft) + Count(Root->pRight) + 1; }
-	int Sum(Element* Root) { return Root == nullptr ? 0 : Sum(Root->pLeft)+Sum(Root->pRight) + Root->Data; }
-	double Avg(Element* Root) { return (double)Sum() / Count(); }
+	int MaxValue(Element* Root)const { return Root->pRight == nullptr ? Root->Data : MaxValue(Root->pRight); }
+	int Count(Element* Root)const { return Root == nullptr ? 0 : Count(Root->pLeft) + Count(Root->pRight) + 1; }
+	int Sum(Element* Root)const { return Root == nullptr ? 0 : Sum(Root->pLeft)+Sum(Root->pRight) + Root->Data; }
+	void Clear(Element* Root)
+	{
+		if (Root == nullptr)return;
+		Clear(Root->pLeft);
+		if (!Root->pLeft->Data) Root->pLeft = nullptr;
+		//if (!Root->pRight->Data) Root->pRight = nullptr;
+		if (Root->pLeft == nullptr && Root->pRight == nullptr) { delete Root; return; };
+		Clear(Root->pRight);
+	}
 
 
 public:
@@ -60,7 +68,9 @@ public:
 	int MaxValue() { return MaxValue(Root); }
 	int Count() { return Count(Root); }
 	int Sum() { return Sum(Root); }
-	double Avg() { return Avg(Root); }
+	double Avg() { return (double)Sum(Root)/Count(Root); }
+	void Clear() { Clear(Root); Root = nullptr; };
+
 
 
 };
@@ -85,6 +95,8 @@ void main()
 	cout << "Размер дерева: "<<tree.Count() << endl;
 	cout << "сумма: " << tree.Sum() << endl;
 	cout << "Среднее значение: " << tree.Avg() << endl;
+	tree.Clear();
+	tree.print();
 
 
 		
