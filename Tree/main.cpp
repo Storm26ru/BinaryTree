@@ -44,6 +44,9 @@ class Tree
 		//MinValue(Root->pLeft);
 	}
 	int MaxValue(Element* Root) { return Root->pRight == nullptr ? Root->Data : MaxValue(Root->pRight); }
+	int Count(Element* Root) { return Root == nullptr ? 0 : Count(Root->pLeft) + Count(Root->pRight) + 1; }
+	int Sum(Element* Root) { return Root == nullptr ? 0 : Sum(Root->pLeft)+Sum(Root->pRight) + Root->Data; }
+	double Avg(Element* Root) { return (double)Sum() / Count(); }
 
 
 public:
@@ -55,7 +58,9 @@ public:
 	void print() { print(Root); }
 	int MinValue() { return MinValue(Root); }
 	int MaxValue() { return MaxValue(Root); }
-
+	int Count() { return Count(Root); }
+	int Sum() { return Sum(Root); }
+	double Avg() { return Avg(Root); }
 
 
 };
@@ -77,6 +82,9 @@ void main()
 	tree.print();
 	cout << "Значение min " << tree.MinValue() << endl;
 	cout << "Значение max " << tree.MaxValue() << endl;
+	cout << "Размер дерева: "<<tree.Count() << endl;
+	cout << "сумма: " << tree.Sum() << endl;
+	cout << "Среднее значение: " << tree.Avg() << endl;
 
 
 		
