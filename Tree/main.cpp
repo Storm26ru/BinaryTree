@@ -53,6 +53,33 @@ class Tree
 		Clear(Root->pRight);
 		delete Root;
 	} 
+	void Erase(int Data, Element* Root)
+	{
+		if (Data < Root->Data)
+		{
+			if (Data == Root->pLeft->Data)
+			{
+				Element* temp = Root->pLeft;
+				Root->pLeft = Root->pLeft->pLeft;
+				Root->pRight = Root->pRight->pRight;
+				delete temp;
+				return;
+			}
+			else Erase(Data, Root->pLeft);
+		}
+		else
+		{
+			if (Data == Root->pRight->Data)
+			{
+				Element* temp = Root->pRight;
+				Root->pLeft = Root->pLeft->pLeft;
+				Root->pRight = Root->pRight->pRight;
+				delete temp;
+				return;
+			}
+			else Erase(Data, Root->pRight);
+		}
+	}
 
 
 public:
@@ -68,6 +95,7 @@ public:
 	int Sum() { return Sum(Root); }
 	double Avg() { return (double)Sum(Root)/Count(Root); }
 	void Clear() { Clear(Root); Root = nullptr; };
+	void Erase(int Data) { Erase(Data, Root); }
 
 
 
@@ -95,6 +123,8 @@ void main()
 	cout << "Среднее значение: " << tree.Avg() << endl;
 	//tree.Clear();
 	//tree.print();
+	tree.Erase(34);
+	tree.print();
 
 
 		
