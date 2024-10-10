@@ -50,17 +50,15 @@ class Tree
 	{
 		if (Root == nullptr)return;
 		Clear(Root->pLeft);
-		if (!Root->pLeft->Data) Root->pLeft = nullptr;
-		//if (!Root->pRight->Data) Root->pRight = nullptr;
-		if (Root->pLeft == nullptr && Root->pRight == nullptr) { delete Root; return; };
 		Clear(Root->pRight);
-	}
+		delete Root;
+	} 
 
 
 public:
 	Element* getRoot()const { return Root; };
 	Tree() { Root = nullptr; cout << "TConstructor: " << this << endl; } 
-	~Tree() { cout << "TDestructor: " << this << endl; }
+	~Tree() { Clear(Root);  cout << "TDestructor: " << this << endl; }
 	void insert(int Data) { insert(Data, Root); }
 	//						Methods:
 	void print() { print(Root); }
@@ -95,8 +93,8 @@ void main()
 	cout << "Размер дерева: "<<tree.Count() << endl;
 	cout << "сумма: " << tree.Sum() << endl;
 	cout << "Среднее значение: " << tree.Avg() << endl;
-	tree.Clear();
-	tree.print();
+	//tree.Clear();
+	//tree.print();
 
 
 		
