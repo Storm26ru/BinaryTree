@@ -105,9 +105,6 @@ class Tree
 		Balance(Root->pRight);
 		Balance(Root);
 	}
-	
-	
-
 
 public:
 	Element* getRoot()const { return Root; };
@@ -150,8 +147,8 @@ void main()
 	cout << "Среднее-арифметическое элементов дерева: " << tree.Avg() << endl;
 	//tree.Clear();
 	//tree.print();
-	//tree.Erase(41);
-	//tree.print();
+	tree.Erase(41);
+	tree.print();
 	cout << "Глубина дерева: " << tree.Depht() << endl;
 	tree.Balance();
 	
