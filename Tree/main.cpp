@@ -78,6 +78,34 @@ class Tree
 		}
 		Data < Root->Data ? Erase(Data, Root->pLeft) : Erase(Data, Root->pRight);
 	}
+	void Erase1(int Data, Element*& Root)
+	{
+		if (Root == nullptr)return;
+		Erase1(Data, Root->pLeft);
+		Erase1(Data, Root->pRight);
+		if (Data == Root->Data)
+		{
+			if (Root->pLeft == Root->pRight)
+			{
+				delete Root;
+				Root = nullptr;
+			}
+			else
+			{
+				if (Count(Root->pLeft) > Count(Root->pRight))
+				{
+					Root->Data = MaxValue(Root->pLeft);
+					Erase1(MaxValue(Root->pLeft), Root->pLeft);
+				}
+				else
+				{
+					Root->Data = MinValue(Root->pRight);
+					Erase1(MinValue(Root->pRight), Root->pRight);
+				}
+			}
+		}
+		//Data < Root->Data ? Erase1(Data, Root->pLeft) : Erase1(Data, Root->pRight);
+	}
 	int Depht(Element* Root)const
 	{
 		if (Root == nullptr)return 0;
@@ -117,11 +145,12 @@ public:
 	int MaxValue() { return MaxValue(Root); }
 	int Count() { return Count(Root); }
 	int Sum() { return Sum(Root); }
-	double Avg() { return (double)Sum(Root)/Count(Root); }
+	double Avg()const { return (double)Sum(Root)/Count(Root); }
 	void Clear() { Clear(Root); Root = nullptr; };
 	void Erase(int Data) { Erase(Data, Root); }
 	int Depht() { return Depht(Root); }
 	void Balance() { Balance(Root); }
+	void Erase1(int Data) { Erase1(Data, Root); }
 
 };
 
@@ -147,9 +176,11 @@ void main()
 	cout << "Среднее-арифметическое элементов дерева: " << tree.Avg() << endl;
 	//tree.Clear();
 	//tree.print();
-	tree.Erase(41);
-	tree.print();
+	//tree.Erase(41);
+	//tree.print();
 	cout << "Глубина дерева: " << tree.Depht() << endl;
+	tree.Erase1(41);
+	tree.print();
 	tree.Balance();
 	
 	
