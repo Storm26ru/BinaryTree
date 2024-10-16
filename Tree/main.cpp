@@ -112,6 +112,12 @@ class Tree
 		Balance(Root->pRight);
 		Balance(Root);
 	}
+	void print_depht(Element* Root, unsigned int depht)const
+	{
+		if (Depht(Root) == depht) { cout << Root->Data << tab; return; }
+		print_depht(Root->pLeft, depht);
+		print_depht(Root->pRight, depht);
+	}
 
 public:
 	Element* getRoot()const { return Root; };
@@ -133,6 +139,7 @@ public:
 	void Erase(int Data) { Erase(Data, Root); }
 	int Depht()const { return Depht(Root); }
 	void Balance() { Balance(Root); }
+	void print_depht(unsigned int depht)const { print_depht(Root, depht); }
 };
 template<typename T> void performance(const Tree& tree,T(Tree::*Method)()const)
 {
@@ -141,7 +148,20 @@ template<typename T> void performance(const Tree& tree,T(Tree::*Method)()const)
 	clock_t end = clock();
 	cout << "Производительность - " << double(end - start) / CLOCKS_PER_SEC << endl;
 }
-
+template<typename T1, typename T2> void performance(Tree& tree, T1(Tree::* Method)(T2), T2 Data)
+{
+	clock_t start = clock();
+	(tree.*Method)(Data);
+	clock_t end = clock();
+	cout << "Производительность - " << double(end - start) / CLOCKS_PER_SEC << endl;
+}
+template<typename T> void performance(Tree& tree, T(Tree::* Method)())
+{
+	clock_t start = clock();
+	(tree.*Method)();
+	clock_t end = clock();
+	cout << "Производительность - " << double(end - start) / CLOCKS_PER_SEC << endl;
+}
 void main()
 {
 
@@ -150,11 +170,14 @@ void main()
 	int n;
 	cout << "Введите рзмер дерева: "; cin >> n;
 	Tree tree;
+	clock_t start = clock();
 	for (int i = 0; i < n; i++)
 	{
 		tree.insert(rand() % 100);
 	}
-	//tree.print();
+	clock_t end = clock();
+	cout << "Производительность - " << double(end - start) / CLOCKS_PER_SEC << endl;
+	tree.print();
 	//cout << "Min значение дерева: " << tree.MinValue() << endl;
 	//cout << "Max значение дерева: " << tree.MaxValue() << endl;
 	//cout << "Размер дерева: " << tree.Count() << endl;
@@ -164,20 +187,21 @@ void main()
 	////tree.print();
 	////tree.Erase(41);
 	////tree.print();
-	//cout << "Глубина дерева: " << tree.Depht() << endl;
+	cout << "Глубина дерева: " << tree.Depht() << endl;
 	//tree.Erase1(41);
 	//tree.print();
 	//tree.Balance();
 	//Tree tree{ 41,25,67,16,89 };
 	//tree.print();
-	/*clock_t start = clock();
-	tree.Balance();
-	clock_t end = clock();
-	cout << "Производительность - " << double(end - start) / CLOCKS_PER_SEC << endl;*/
-	performance(tree, &Tree::Depht);
+	/*performance(tree, &Tree::Depht);
 	tree.Balance();
 	performance(tree, &Tree::Depht);
 	tree.print();
+	performance(tree, &Tree::Erase, 41);
+	tree.print();
+	performance(tree, &Tree::Balance);
+	tree.print();*/
+	
 
 	
 
