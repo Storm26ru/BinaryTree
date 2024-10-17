@@ -112,11 +112,35 @@ class Tree
 		Balance(Root->pRight);
 		Balance(Root);
 	}
-	void print_depht(Element* Root, unsigned int depht)const
+	void depth_print(Element* Root, int depth, int width)const
 	{
-		if (Depht(Root) == depht) { cout << Root->Data << tab; return; }
-		print_depht(Root->pLeft, depht);
-		print_depht(Root->pRight, depht);
+		if (Root == nullptr)
+		{
+			cout.width(width);
+			cout << "";
+			return;
+		}
+		if (depth == 0)
+		{
+			cout.width(width);
+			cout << Root->Data;
+			return;
+		}
+		depth_print(Root->pLeft, depth - 1, width);
+		cout.width(width);
+		cout << " ";
+		depth_print(Root->pRight, depth - 1, width);
+	}
+	void tree_print(int depth, int width)const
+	{
+		if (depth > Depht(Root))return;
+		depth_print(Root, depth, width);
+		//cout << endl;
+		//cout << endl;
+		//cout << endl;
+		cout << endl;
+		cout << endl;
+		tree_print(depth + 1, width / 2);
 	}
 
 public:
@@ -139,7 +163,9 @@ public:
 	void Erase(int Data) { Erase(Data, Root); }
 	int Depht()const { return Depht(Root); }
 	void Balance() { Balance(Root); }
-	void print_depht(unsigned int depht)const { print_depht(Root, depht); }
+	void depth_print(int depth, int width)const { depth_print(Root, depth, width); }
+	void tree_print()const { tree_print(0, 50); }
+	
 };
 template<typename T> void performance(const Tree& tree,T(Tree::*Method)()const)
 {
@@ -201,7 +227,9 @@ void main()
 	tree.print();
 	performance(tree, &Tree::Balance);
 	tree.print();*/
-	
+	//tree.Balance();
+	tree.tree_print();
+
 
 	
 
