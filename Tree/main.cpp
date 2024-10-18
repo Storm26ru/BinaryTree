@@ -3,6 +3,7 @@ using namespace std;
 #define tab "\t"
 #include<ctime>
 
+
 class Tree
 {
 	class Element
@@ -14,8 +15,9 @@ class Tree
 		~Element() { /*cout << "EDestructor: " << this << endl;*/ }
 		friend class Tree;
 	}*Root;
-
-	//						Private Methods:
+	int count = 1;
+				
+	//		Private Methods:
 	void print(Element* Root)const
 	{
 		if (Root == nullptr)return;
@@ -112,11 +114,26 @@ class Tree
 		Balance(Root->pRight);
 		Balance(Root);
 	}
-	void depth_print(Element* Root, int depth, int width)const
+	void out(Element*Root, int indent, int space, bool start=0,bool end=0)
+	{
+		++count;
+		if (indent == 0)
+		{
+			if (Root == nullptr)cout << "  "<<"  ";
+			else cout << Root->Data << "  ";
+			return;
+		}
+		if(count==1) for (int i = 0; i < indent; i++)cout << "  ";
+		if (Root == nullptr)cout << "  ";
+		else cout << Root->Data;
+		if(end) for (int i = 0; i < indent; i++)cout << "  ";
+		else for (int i = 0; i < space; i++)cout << "  ";
+	}
+	void depth_print(Element* Root, int depth, int indent,int space)const
 	{
 		if (Root == nullptr)
 		{
-			cout.width(width);
+			out(Root,)
 			cout << "";
 			return;
 		}
@@ -126,10 +143,10 @@ class Tree
 			cout << Root->Data;
 			return;
 		}
-		depth_print(Root->pLeft, depth - 1, width);
+		depth_print(Root->pLeft, depth - 1, indent,space);
 		cout.width(width);
 		cout << " ";
-		depth_print(Root->pRight, depth - 1, width);
+		depth_print(Root->pRight, depth - 1, indent,space);
 	}
 	void tree_print(int depth, int width)const
 	{
@@ -164,7 +181,7 @@ public:
 	int Depht()const { return Depht(Root); }
 	void Balance() { Balance(Root); }
 	void depth_print(int depth, int width)const { depth_print(Root, depth, width); }
-	void tree_print()const { tree_print(0, 50); }
+	void tree_print()const { int w = (2, Depht(Root) - 1); tree_print(0, w); }
 	
 };
 template<typename T> void performance(const Tree& tree,T(Tree::*Method)()const)
