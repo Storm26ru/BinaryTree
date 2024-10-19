@@ -15,7 +15,7 @@ class Tree
 		~Element() { /*cout << "EDestructor: " << this << endl;*/ }
 		friend class Tree;
 	}*Root;
-	int count = 1;
+	int count = 0;
 				
 	//		Private Methods:
 	void print(Element* Root)const
@@ -114,10 +114,10 @@ class Tree
 		Balance(Root->pRight);
 		Balance(Root);
 	}
-	void out(Element*Root, int indent, int space, bool start=0,bool end=0)
+	void out(Element*Root, int max, int indent, int space)
 	{
 		++count;
-		if (indent == 0)
+		/*if (indent == 0)
 		{
 			if (Root == nullptr)cout << "  "<<"  ";
 			else cout << Root->Data << "  ";
@@ -126,38 +126,42 @@ class Tree
 		if(count==1) for (int i = 0; i < indent; i++)cout << "  ";
 		if (Root == nullptr)cout << "  ";
 		else cout << Root->Data;
-		if(end) for (int i = 0; i < indent; i++)cout << "  ";
+		if(count==max) for (int i = 0; i < indent; i++)cout << "  ";
+		else for (int i = 0; i < space; i++)cout << "  ";*/
+		if (count == 1) for (int i = 0; i < indent; i++)cout << "  ";
+		if (Root == nullptr)cout << "00";
+		else cout << Root->Data;
+		if (count == max) for (int i = 0; i < indent; i++)cout << "  ";
 		else for (int i = 0; i < space; i++)cout << "  ";
 	}
-	void depth_print(Element* Root, int depth, int indent,int space)const
+	void depth_print(Element* Root, int depth,int max, int indent,int space)
 	{
 		if (Root == nullptr)
 		{
-			out(Root,)
-			cout << "";
+			out(Root, max, indent, space);
 			return;
 		}
 		if (depth == 0)
 		{
-			cout.width(width);
-			cout << Root->Data;
+			out(Root, max, indent, space);
 			return;
 		}
-		depth_print(Root->pLeft, depth - 1, indent,space);
-		cout.width(width);
-		cout << " ";
-		depth_print(Root->pRight, depth - 1, indent,space);
+		depth_print(Root->pLeft, depth - 1,max, indent,space);
+		depth_print(Root->pRight, depth - 1,max, indent,space);
 	}
-	void tree_print(int depth, int width)const
+	void tree_print(int depth, int max, int indent, int space)
 	{
-		if (depth > Depht(Root))return;
-		depth_print(Root, depth, width);
-		//cout << endl;
-		//cout << endl;
-		//cout << endl;
+		if (depth+1> Depht(Root))return;
+		depth_print(Root, depth, pow(2,depth),indent,space);
+		count = 0;
 		cout << endl;
 		cout << endl;
-		tree_print(depth + 1, width / 2);
+		if(depth<1)tree_print(depth+1, max, (indent - 1) / 2, max - 1);
+		else if (depth==Depht(Root))tree_print(depth + 1,max,0,2);
+		else tree_print(depth + 1,max,(indent-1)/2,(space-1)/2);
+		
+		//if (depth>1)tree_print(depth + 1,max,(indent-1)/2,(space-1)/2);
+		//else tree_print(depth+1, max, (indent - 1) / 2, max - 1);
 	}
 
 public:
@@ -180,8 +184,12 @@ public:
 	void Erase(int Data) { Erase(Data, Root); }
 	int Depht()const { return Depht(Root); }
 	void Balance() { Balance(Root); }
-	void depth_print(int depth, int width)const { depth_print(Root, depth, width); }
-	void tree_print()const { int w = (2, Depht(Root) - 1); tree_print(0, w); }
+	//void depth_print(int depth, int width) { depth_print(Root, depth, width); }
+	void tree_print()
+	{ 
+		int max = pow(2, Depht(Root) - 1); 
+		tree_print(0, max,max-1,0); 
+	}
 	
 };
 template<typename T> void performance(const Tree& tree,T(Tree::*Method)()const)
