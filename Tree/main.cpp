@@ -228,11 +228,10 @@ void main()
 	cout << "Сумма элементов дерева: "; performance("Sum", tree, &Tree::Sum);
 	cout << "Среднее-арифметическое элементов дерева: "; performance("Arg",tree, &Tree::Avg);
 	performance("tree-print", tree, &Tree::tree_print);
+	performance("Balance", tree, &Tree::Balance);
 	performance("Erase", tree, &Tree::Erase, 41);
 	tree.tree_print();
 	cout << "Глубина дерева: "; performance("Depth",tree, &Tree::Depht);
-	performance("Balance", tree, &Tree::Balance);
-	tree.tree_print();
 	//Tree tree{ 41,25,67,16,89 };
 	//tree.print();
 	
